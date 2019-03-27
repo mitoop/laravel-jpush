@@ -68,17 +68,38 @@ class JPushService
 
     public function send()
     {
-        return $this->payload
-                    ->androidNotification($this->notification, [
-                        'extras' => $this->extras,
-                    ])
-                    ->iosNotification($this->notification, [
-                        'extras' => $this->extras,
-                    ])
-                    ->send();
+        $this->payload
+             ->androidNotification($this->notification, [
+                 'extras' => $this->extras,
+             ])
+             ->iosNotification($this->notification, [
+                 'extras' => $this->extras,
+                 'sound'  => 'default'
+             ]);
+
+        try {
+            return $this->payload->send();
+        } catch (\JPush\Exceptions\JPushException $e){
+            return false;
+        }
     }
 
-    public function extras(array $extras)
+    public function push($alias, $notification, array $extras = [])
+    {
+        $this->setPlatform('all')
+             ->notify($notification)
+             ->attachExtras($extras);
+
+        if ($alias == 'all'){
+            $this->toAll();
+        } else {
+            $this->toAlias($alias);
+        }
+
+        return $this->send();
+    }
+
+    public function attachExtras(array $extras)
     {
         $this->extras = $extras;
 

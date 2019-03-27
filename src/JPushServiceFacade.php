@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static JPushService toTag(string|array $tag)
  * @method static JPushService notify(string $notification)
  * @method static mixed send()
- * @method static JPushService extras(array $extras)
+ * @method static JPushService attachExtras(array $extras)
+ * @method static mixed push(string|array $alias, string $notification, array $extras)
  */
 class JPushServiceFacade extends Facade
 {

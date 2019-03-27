@@ -14,7 +14,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(JPushService::class, function (){
+        $this->app->bind(JPushService::class, function (){
              return new JPushService(
                  config('services.jpush.app_key'),
                  config('services.jpush.master_secret'),
