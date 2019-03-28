@@ -11,7 +11,7 @@ class JPushJob implements PushJobInterface
      *
      * @var \Mitoop\JPush\PushJobInterface
      */
-    public $pushService;
+    protected $pushService;
 
     /**
      * Create a new job instance.
@@ -56,4 +56,10 @@ class JPushJob implements PushJobInterface
             'file' => $e->getFile().':'.$e->getLine()
         ]);
     }
+
+    public function __clone()
+    {
+        $this->pushService = clone $this->pushService->setQueue();
+    }
+
 }

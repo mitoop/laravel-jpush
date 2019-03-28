@@ -25,6 +25,8 @@ class ServiceProvider extends LaravelServiceProvider
             if ($this->app->bound('queue')) {
                 $jPush->setQueue($this->app['queue']);
             }
+
+            return $jPush;
         });
         
         $this->app->alias(JPushService::class, 'laravel-jpush');

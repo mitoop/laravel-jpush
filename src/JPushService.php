@@ -168,7 +168,7 @@ class JPushService implements PushServiceInterface
     /**
      * 调用队列发送.
      *
-     * @param \Mitoop\JPush\PushJobInterface $job 任务类
+     * @param \Mitoop\JPush\PushJobInterface|null $job 任务类
      * @param null $queue 使用的队列 为 null 时 调用默认队列
      * @param null $connection 使用的队列连接 为 null 时 调用默认连接
      * @return mixed
@@ -184,7 +184,7 @@ class JPushService implements PushServiceInterface
      * @param  \Illuminate\Contracts\Queue\Factory  $queue
      * @return $this
      */
-    public function setQueue(QueueContract $queue)
+    public function setQueue(QueueContract $queue = null)
     {
         $this->queue = $queue;
 
