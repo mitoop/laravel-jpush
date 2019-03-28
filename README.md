@@ -42,8 +42,8 @@ JPush::setPlatform('all')->toAll()->notify('通知')->attachExtras('附加信息
 JPush::setPlatform('all')->toTag('标签')->notify('通知')->attachExtras('附加信息')->send();
 
 JPush::setPlatform('all')->toAlias('别名')->notify('通知')->attachExtras('附加信息')->queue();
-JPush::setPlatform('all')->toAll()->notify('通知')->attachExtras('附加信息')->send();
-JPush::setPlatform('all')->toTag('标签')->notify('通知')->attachExtras('附加信息')->send();
+JPush::setPlatform('all')->toAll()->notify('通知')->attachExtras('附加信息')->queue();
+JPush::setPlatform('all')->toTag('标签')->notify('通知')->attachExtras('附加信息')->queue();
 
 JPush 也可以直接调用极光 Payload 的方法 来完成更复杂的操作.
 ```
