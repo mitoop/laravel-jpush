@@ -28,13 +28,12 @@
 
 同步推送
 JPush::pushNow('别名', '通知', '附加信息');
+JPush::pushNow(['别名数组'], '通知', '附加信息');
 JPush::pushNow('all', '通知', '附加信息'); // 推送给所有人
-or
-JPush::push('别名', '通知', '附加信息')->send();
-JPush::push('all', '通知', '附加信息')->send(); // 推送给所有人
 
 异步推送
 JPush::push('别名', '通知', '附加信息')->queue();
+JPush::push(['别名数组'], '通知', '附加信息')->queue();
 JPush::push('all', '通知', '附加信息')->queue(); // 推送给所有人
 
 如果要自己组装推送信息 可以单独调用方法
