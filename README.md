@@ -13,7 +13,7 @@
     'jpush' => [
         'app_key'         => env('JPUSH_APP_KEY') // 极光 app kye 
         'master_secret'   => env('JPUSH_MASTER_SECRET'), // 极光 master secret
-        'apns_production' => env('JPUSH_APNS_PRODUCTION', false), // iod apns_production 配置 开发设置Wiefalse 线上设置为 true
+        'apns_production' => env('JPUSH_APNS_PRODUCTION', false), // ios配置 开发版本 false 线上版本 true
         'log_file'        => env('JPUSH_LOG_FILE', storage_path('logs/jpush.log')), // 接口日志文件 为 null 不记录日志
     ],
 ```
@@ -44,5 +44,6 @@ JPush::setPlatform('all')->toTag('标签')->notify('通知')->attachExtras('附�
 JPush::setPlatform('all')->toAlias('别名')->notify('通知')->attachExtras('附加信息')->queue();
 JPush::setPlatform('all')->toAll()->notify('通知')->attachExtras('附加信息')->send();
 JPush::setPlatform('all')->toTag('标签')->notify('通知')->attachExtras('附加信息')->send();
-JPush也可以直接调用极光Payload的方法 来完成更复杂的操作.
+
+JPush 也可以直接调用极光 Payload 的方法 来完成更复杂的操作.
 ```
