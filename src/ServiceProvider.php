@@ -15,12 +15,16 @@ class ServiceProvider extends LaravelServiceProvider
     public function register()
     {
         $this->app->bind(JPushService::class, function (){
-             return new JPushService(
+             $jPush = new JPushService(
                  config('services.jpush.app_key'),
                  config('services.jpush.master_secret'),
                  config('services.jpush.apns_production'),
                  config('services.jpush.log_file')
              );
+
+            if ($this->app->bound('queue')) {
+                $jPush->setQueue($this->app['queue']);
+            }
         });
         
         $this->app->alias(JPushService::class, 'laravel-jpush');
