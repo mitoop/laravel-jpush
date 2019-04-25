@@ -7,6 +7,15 @@ use JPush\Client;
 class ServiceProvider extends LaravelServiceProvider
 {
     /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @deprecated Implement the \Illuminate\Contracts\Support\DeferrableProvider interface instead. Will be removed in Laravel 5.9.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
      * Register the service provider.
      *
      * @return void
