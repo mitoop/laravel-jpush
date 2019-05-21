@@ -40,7 +40,7 @@ class JPushJob implements PushJobInterface
      */
     public function displayName()
     {
-        return get_class($this->pushService);
+        return get_class($this);
     }
 
     /**
