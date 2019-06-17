@@ -59,7 +59,7 @@ class JPushJob implements PushJobInterface
 
     public function __clone()
     {
-        $this->pushService = clone $this->pushService->setQueue();
+        $this->pushService = (clone $this->pushService)->setQueue();
     }
 
 }
