@@ -30,6 +30,10 @@ class JPushService implements PushServiceInterface
      */
     public function __construct($appKey, $masterSecret, $apnProduction = false, $logFile = null)
     {
+        if(!$logFile) {
+            $logFile = null;
+        }
+
          $this->client = new Client($appKey, $masterSecret, $logFile);
 
          $this->payload = $this->client->push();
