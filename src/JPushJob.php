@@ -2,7 +2,7 @@
 
 namespace Mitoop\JPush;
 
-use Log;
+use Illuminate\Contracts\Foundation\Application;
 
 class JPushJob implements PushJobInterface
 {
@@ -14,12 +14,19 @@ class JPushJob implements PushJobInterface
     protected $pushService;
 
     /**
+     * @var \Illuminate\Contracts\Foundation\Application
+     */
+    protected $app;
+
+    /**
      * Create a new job instance.
      *
-     * @param \Mitoop\JPush\PushServiceInterface $pushService
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \Mitoop\JPush\PushServiceInterface  $pushService
      */
-    public function __construct(PushServiceInterface $pushService)
+    public function __construct(Application $app, PushServiceInterface $pushService)
     {
+        $this->app = $app;
         $this->pushService = $pushService;
     }
 
@@ -51,7 +58,7 @@ class JPushJob implements PushJobInterface
      */
     public function failed($e)
     {
-        Log::error('JPush job error', [
+        $this->app->log->error('JPush job error', [
             'msg'  => $e->getMessage(),
             'file' => $e->getFile().':'.$e->getLine()
         ]);

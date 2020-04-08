@@ -2,15 +2,16 @@
 
 namespace Mitoop\JPush;
 
+use Illuminate\Contracts\Foundation\Application;
 use JPush\Client;
 use Illuminate\Contracts\Queue\Factory as QueueContract;
 
 class JPushService implements PushServiceInterface
 {
-    protected $client;
-    protected $payload;
-    protected $notification;
-    protected $extras = [];
+    /**
+     * @var \Illuminate\Contracts\Foundation\Application
+     */
+    protected $app;
 
     /**
      * The queue factory implementation.
@@ -19,17 +20,25 @@ class JPushService implements PushServiceInterface
      */
     protected $queue;
 
+    protected $client;
+    protected $payload;
+    protected $notification;
+    protected $extras = [];
+
     /**
      * 构造方法, 初始化极光Client 和 Payload.
      *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param $appKey
      * @param $masterSecret
-     * @param bool $apnProduction
-     * @param null $logFile
+     * @param  bool  $apnProduction
+     * @param  null  $logFile
      * @throws \InvalidArgumentException
      */
-    public function __construct($appKey, $masterSecret, $apnProduction = false, $logFile = null)
+    public function __construct(Application $app, $appKey, $masterSecret, $apnProduction = false, $logFile = null)
     {
+        $this->app = $app;
+
         if(!$logFile) {
             $logFile = null;
         }
@@ -158,6 +167,18 @@ class JPushService implements PushServiceInterface
     }
 
     /**
+     * 队列推送
+     * @param $alias
+     * @param $notification
+     * @param  array  $extras
+     * @return mixed
+     */
+    public function pushQueue($alias, $notification, array $extras = [])
+    {
+        return $this->push($alias, $notification,$extras)->queue();
+    }
+
+    /**
      * 附加的信息.
      * @param array $extras
      * @return $this
@@ -179,7 +200,7 @@ class JPushService implements PushServiceInterface
      */
     public function queue(PushJobInterface $job = null, $queue = null, $connection = null)
     {
-        return $this->queue->connection($connection)->pushOn($queue, $job ? :  new JPushJob($this));
+        return $this->queue->connection($connection)->pushOn($queue, $job ? :  new JPushJob($this->app, $this));
     }
 
     /**

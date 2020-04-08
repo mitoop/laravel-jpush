@@ -5,12 +5,12 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "徐夏冰",
-            "email": "037333@gmail.com"
+            "name": "mitoop",
+            "email": "me@mitoop.com"
         }
     ],
     "require": {
-        "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0",
+        "illuminate/support": "^7.0",
         "jpush/jpush": "^3.6"
     },
     "autoload": {
