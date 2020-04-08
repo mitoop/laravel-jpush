@@ -46,8 +46,25 @@ JPush::pushQueue(['别名数组'], '通知', '附加信息');
 JPush::pushQueue('all', '通知', '附加信息'); // 推送给所有人
 ```
 
+更多：
+```
+如果上面两种方式不能满足使用
+尝试查看 `Mitoop\JPush\JPushService` 里面的方法可以组合链式调用
+```
+
 ## Tips
 ```
 在极光后台查看推送历史的时候, 有个选择框, Web/Api，
 通过包推送的是 `Api` 这种方式，但是默认值是 `Web`，查看的时候要切换一下
 ```
+
+## Links
+[http://docs.jiguang.cn/jpush/guideline/intro/](http://docs.jiguang.cn/jpush/guideline/intro/)
+
+[http://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/](http://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/)
+
+## 
+极光文档我觉得是推送服务商里写的最好的文档
+
+
+
