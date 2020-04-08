@@ -25,8 +25,6 @@ class JPushServiceFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        self::clearResolvedInstance(JPushService::class);
-
-        return JPushService::class;
+        return self::$app->make(JPushService::class);
     }
 }
