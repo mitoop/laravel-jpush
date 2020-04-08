@@ -3,7 +3,6 @@
 namespace Mitoop\JPush;
 
 use Illuminate\Contracts\Foundation\Application;
-use Log;
 
 class JPushJob implements PushJobInterface
 {

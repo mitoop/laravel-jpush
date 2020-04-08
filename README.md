@@ -41,9 +41,9 @@ JPush::pushNow('all', '通知', '附加信息'); // 推送给所有人
 
 异步推送
 ```php
-JPush::push('别名', '通知', '附加信息')->queue();
-JPush::push(['别名数组'], '通知', '附加信息')->queue();
-JPush::push('all', '通知', '附加信息')->queue(); // 推送给所有人
+JPush::pushQueue('别名', '通知', '附加信息');
+JPush::pushQueue(['别名数组'], '通知', '附加信息');
+JPush::pushQueue('all', '通知', '附加信息'); // 推送给所有人
 ```
 
 ## Tips

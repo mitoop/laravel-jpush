@@ -167,6 +167,18 @@ class JPushService implements PushServiceInterface
     }
 
     /**
+     * 队列推送
+     * @param $alias
+     * @param $notification
+     * @param  array  $extras
+     * @return mixed
+     */
+    public function pushQueue($alias, $notification, array $extras = [])
+    {
+        return $this->push($alias, $notification,$extras)->queue();
+    }
+
+    /**
      * 附加的信息.
      * @param array $extras
      * @return $this
