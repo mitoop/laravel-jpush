@@ -2,24 +2,11 @@
 
 namespace Mitoop\JPush;
 
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use JPush\Client;
-use Illuminate\Contracts\Queue\Factory as QueueContract;
 
 class JPushService implements PushServiceInterface
 {
-    /**
-     * @var \Illuminate\Contracts\Foundation\Application
-     */
-    protected $app;
-
-    /**
-     * The queue factory implementation.
-     *
-     * @var \Illuminate\Contracts\Queue\Factory
-     */
-    protected $queue;
-
     protected $client;
     protected $payload;
     protected $notification;
@@ -28,17 +15,14 @@ class JPushService implements PushServiceInterface
     /**
      * 构造方法, 初始化极光Client 和 Payload.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param $appKey
      * @param $masterSecret
      * @param  bool  $apnProduction
      * @param  null  $logFile
      * @throws \InvalidArgumentException
      */
-    public function __construct(Application $app, $appKey, $masterSecret, $apnProduction = false, $logFile = null)
+    public function __construct($appKey, $masterSecret, $apnProduction = false, $logFile = null)
     {
-        $this->app = $app;
-
         if(!$logFile) {
             $logFile = null;
         }
@@ -193,27 +177,22 @@ class JPushService implements PushServiceInterface
     /**
      * 调用队列发送.
      *
-     * @param \Mitoop\JPush\PushJobInterface|null $job 任务类
-     * @param null $queue 使用的队列 为 null 时 调用默认队列
-     * @param null $connection 使用的队列连接 为 null 时 调用默认连接
+     * @param  ShouldQueue|null  $job  任务类
+     * @param  null  $queue  使用的队列 为 null 时 调用默认队列
+     * @param  null  $connection  使用的队列连接 为 null 时 调用默认连接
      * @return mixed
      */
-    public function queue(PushJobInterface $job = null, $queue = null, $connection = null)
+    public function queue(ShouldQueue $job = null, $queue = null, $connection = null)
     {
-        return $this->queue->connection($connection)->pushOn($queue, $job ? :  new JPushJob($this->app, $this));
-    }
+        $pending = dispatch($job ? : new JPushJob($this));
 
-    /**
-     * Set the queue manager instance.
-     *
-     * @param  \Illuminate\Contracts\Queue\Factory  $queue
-     * @return $this
-     */
-    public function setQueue(QueueContract $queue = null)
-    {
-        $this->queue = $queue;
+        if($queue) {
+            $pending->onQueue($queue);
+        }
 
-        return $this;
+        if($connection) {
+            $pending->onConnection($connection);
+        }
     }
 
     /**

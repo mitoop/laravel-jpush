@@ -2,6 +2,7 @@
 
 namespace Mitoop\JPush;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -15,8 +16,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static JPushService push(string|array $alias, string $notification, array $extras)
  * @method static mixed pushNow(string|array $alias, string $notification, array $extras)
  * @method static mixed pushQueue(string|array $alias, string $notification, array $extras)
- * @method static mixed queue(PushJobInterface $job, string $queue, string $connection)
+ * @method static null queue(ShouldQueue $job, string $queue, string $connection)
  */
+
 class JPushServiceFacade extends Facade
 {
     /**

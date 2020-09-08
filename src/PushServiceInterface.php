@@ -2,11 +2,11 @@
 
 namespace Mitoop\JPush;
 
-use Illuminate\Contracts\Queue\Factory as QueueContract;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 interface PushServiceInterface
 {
     public function send();
 
-    public function setQueue(QueueContract $queue = null);
+    public function queue(ShouldQueue $job = null, $queue = null, $connection = null);
 }

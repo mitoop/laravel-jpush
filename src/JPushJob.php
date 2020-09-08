@@ -2,31 +2,33 @@
 
 namespace Mitoop\JPush;
 
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
-class JPushJob implements PushJobInterface
+class JPushJob implements ShouldQueue
 {
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+
     /**
      * The push service instance.
      *
-     * @var \Mitoop\JPush\PushJobInterface
+     * @var \Mitoop\JPush\PushServiceInterface
      */
     protected $pushService;
 
     /**
-     * @var \Illuminate\Contracts\Foundation\Application
-     */
-    protected $app;
-
-    /**
      * Create a new job instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Mitoop\JPush\PushServiceInterface  $pushService
      */
-    public function __construct(Application $app, PushServiceInterface $pushService)
+    public function __construct(PushServiceInterface $pushService)
     {
-        $this->app = $app;
         $this->pushService = $pushService;
     }
 
@@ -50,23 +52,10 @@ class JPushJob implements PushJobInterface
         return get_class($this);
     }
 
-    /**
-     * Call the failed method on the mailable instance.
-     *
-     * @param  \Exception  $e
-     * @return void
-     */
-    public function failed($e)
+    public function tags()
     {
-        $this->app->log->error('JPush job error', [
-            'msg'  => $e->getMessage(),
-            'file' => $e->getFile().':'.$e->getLine()
-        ]);
+        return [
+            'JPushJob',
+        ];
     }
-
-    public function __clone()
-    {
-        $this->pushService = (clone $this->pushService)->setQueue();
-    }
-
 }
