@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "illuminate/support": "^7.0",
+        "illuminate/support": "^8.0",
         "jpush/jpush": "^3.6"
     },
     "autoload": {
