@@ -12,7 +12,7 @@
 ```
     'jpush' => [
         // 极光 app kye 
-        'app_key' => env('JPUSH_APP_KEY') 
+        'app_key' => env('JPUSH_APP_KEY'), 
         // 极光 master secret
         'master_secret' => env('JPUSH_MASTER_SECRET'), 
         // 仅对iOS有效 开发环境设置为false 生产环境设置为true
