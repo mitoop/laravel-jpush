@@ -1,10 +1,9 @@
 <?php
 namespace Mitoop\JPush;
 
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
-class ServiceProvider extends LaravelServiceProvider implements DeferrableProvider
+class ServiceProvider extends LaravelServiceProvider
 {
     /**
      * Register the service provider.
@@ -14,7 +13,7 @@ class ServiceProvider extends LaravelServiceProvider implements DeferrableProvid
      */
     public function register()
     {
-        $this->app->bind(JPushService::class, function (){
+        $this->app->bind('jpush', function (){
             $jpushConfig  = $this->app->config['services']['jpush'];
 
             return new JPushService(
@@ -24,17 +23,5 @@ class ServiceProvider extends LaravelServiceProvider implements DeferrableProvid
                 $jpushConfig['log_file']
             );
         });
-
-        $this->app->alias(JPushService::class, 'laravel-jpush');
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [JPushService::class, 'laravel-jpush'];
     }
 }

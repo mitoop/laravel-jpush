@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Facade;
  * @method static mixed pushQueue(string|array $alias, string $notification, array $extras)
  * @method static null queue(ShouldQueue $job, string $queue, string $connection)
  */
-
 class JPushServiceFacade extends Facade
 {
     /**
@@ -29,6 +28,6 @@ class JPushServiceFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return self::$app->make(JPushService::class);
+        return 'jpush';
     }
 }
