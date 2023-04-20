@@ -11,7 +11,7 @@
     ],
     "require": {
         "illuminate/support": "^7.0|^8.0|^9.0|^10.0",
-        "jpush/jpush": "^3.6"
+        "jpush/jpush": "^3.6.*"
     },
     "autoload": {
         "psr-4": {
