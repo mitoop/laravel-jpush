@@ -5,7 +5,7 @@
 > composer require mitoop/laravel-jpush
 
 ## Require
-- Laravel ^7.0
+- Laravel ^7.0 ~ ^10.0
 
 ## Configure
 在 `config/services`里增加极光配置 : 
