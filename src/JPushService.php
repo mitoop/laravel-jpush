@@ -8,36 +8,38 @@ use JPush\Client;
 class JPushService implements PushServiceInterface
 {
     protected $client;
+
     protected $payload;
+
     protected $notification;
+
     protected $extras = [];
 
     /**
      * 构造方法, 初始化极光Client 和 Payload.
      *
-     * @param $appKey
-     * @param $masterSecret
      * @param  bool  $apnProduction
      * @param  null  $logFile
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct($appKey, $masterSecret, $apnProduction = false, $logFile = null)
     {
-        if(!$logFile) {
+        if (! $logFile) {
             $logFile = null;
         }
 
-         $this->client = new Client($appKey, $masterSecret, $logFile);
+        $this->client = new Client($appKey, $masterSecret, $logFile);
 
-         $this->payload = $this->client->push();
-         $this->payload->options([
-             'apns_production' => $apnProduction,
-         ]);
+        $this->payload = $this->client->push();
+        $this->payload->options([
+            'apns_production' => $apnProduction,
+        ]);
     }
 
     /**
      * 设置推送平台.
-     * @param $platform
+     *
      * @return $this
      */
     public function setPlatform($platform)
@@ -49,6 +51,7 @@ class JPushService implements PushServiceInterface
 
     /**
      * 给所有人推送.
+     *
      * @return $this
      */
     public function toAll()
@@ -60,7 +63,7 @@ class JPushService implements PushServiceInterface
 
     /**
      * 给别名推送.
-     * @param $alias
+     *
      * @return $this
      */
     public function toAlias($alias)
@@ -72,7 +75,7 @@ class JPushService implements PushServiceInterface
 
     /**
      * 给某类标签的人推送.
-     * @param $tag
+     *
      * @return $this
      */
     public function toTag($tag)
@@ -84,7 +87,7 @@ class JPushService implements PushServiceInterface
 
     /**
      * 设置通知信息.
-     * @param $notification
+     *
      * @return $this
      */
     public function notify($notification)
@@ -96,40 +99,39 @@ class JPushService implements PushServiceInterface
 
     /**
      * 发送方法.
+     *
      * @return array|bool
      */
     public function send()
     {
         $this->payload
-             ->androidNotification($this->notification, [
-                 'extras' => $this->extras,
-             ])
-             ->iosNotification($this->notification, [
-                 'extras' => $this->extras,
-                 'sound'  => 'default'
-             ]);
+            ->androidNotification($this->notification, [
+                'extras' => $this->extras,
+            ])
+            ->iosNotification($this->notification, [
+                'extras' => $this->extras,
+                'sound' => 'default',
+            ]);
 
         try {
             return $this->payload->send();
-        } catch (\JPush\Exceptions\JPushException $e){
+        } catch (\JPush\Exceptions\JPushException $e) {
             return false;
         }
     }
 
     /**
      * 推送的快捷方法, 并不发送. 可以之后调用send, 或者 queue.
-     * @param $alias
-     * @param $notification
-     * @param array $extras
+     *
      * @return $this
      */
     public function push($alias, $notification, array $extras = [])
     {
         $this->setPlatform('all')
-             ->notify($notification)
-             ->attachExtras($extras);
+            ->notify($notification)
+            ->attachExtras($extras);
 
-        if ($alias == 'all'){
+        if ($alias == 'all') {
             $this->toAll();
         } else {
             $this->toAlias($alias);
@@ -140,31 +142,27 @@ class JPushService implements PushServiceInterface
 
     /**
      * 同步推送.
-     * @param $alias
-     * @param $notification
-     * @param array $extras
+     *
      * @return array|bool
      */
     public function pushNow($alias, $notification, array $extras = [])
     {
-        return $this->push($alias, $notification,$extras)->send();
+        return $this->push($alias, $notification, $extras)->send();
     }
 
     /**
      * 队列推送
-     * @param $alias
-     * @param $notification
-     * @param  array  $extras
+     *
      * @return mixed
      */
     public function pushQueue($alias, $notification, array $extras = [])
     {
-        return $this->push($alias, $notification,$extras)->queue();
+        return $this->push($alias, $notification, $extras)->queue();
     }
 
     /**
      * 附加的信息.
-     * @param array $extras
+     *
      * @return $this
      */
     public function attachExtras(array $extras)
@@ -184,24 +182,25 @@ class JPushService implements PushServiceInterface
      */
     public function queue(ShouldQueue $job = null, $queue = null, $connection = null)
     {
-        $pending = dispatch($job ? : new JPushJob($this));
+        $pending = dispatch($job ?: new JPushJob($this));
 
-        if($queue) {
+        if ($queue) {
             $pending->onQueue($queue);
         }
 
-        if($connection) {
+        if ($connection) {
             $pending->onConnection($connection);
         }
     }
 
     /**
      * Dynamically handle calls to the class.
-     * @description 为了满足复杂使用, 提供一个直接调用Payload的通道.
-     * @param  string  $method
-     * @param  array   $arguments
-     * @return mixed
      *
+     * @description 为了满足复杂使用, 提供一个直接调用Payload的通道.
+     *
+     * @param  string  $method
+     * @param  array  $arguments
+     * @return mixed
      */
     public function __call($method, $arguments)
     {

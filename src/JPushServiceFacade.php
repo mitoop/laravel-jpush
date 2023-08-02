@@ -18,17 +18,12 @@ use Illuminate\Support\Facades\Facade;
  * @method static mixed pushQueue(string|array $alias, string $notification, array $extras)
  * @method static null queue(ShouldQueue $job, string $queue, string $connection)
  */
-
 class JPushServiceFacade extends Facade
 {
-    /**
-     * Get the registered name of the component.
-     *
-     * @return string
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     */
+    public static $cached = false;
+
     protected static function getFacadeAccessor()
     {
-        return self::$app->make(JPushService::class);
+        return JPushService::class;
     }
 }
