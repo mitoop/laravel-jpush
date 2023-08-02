@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "illuminate/queue": "^9.0|10.0",
         "illuminate/support": "^9.0|10.0",
         "jpush/jpush": "^3.6"
     },
@@ -20,6 +21,9 @@
     },
     "extra": {
         "laravel": {
+            "aliases": {
+                "JPush": "Mitoop\\JPush\\JPushServiceFacade"
+            },
             "providers": [
                 "Mitoop\\JPush\\ServiceProvider"
             ]

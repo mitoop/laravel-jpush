@@ -22,7 +22,7 @@ class JPushServiceFacade extends Facade
 {
     public static $cached = false;
 
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return JPushService::class;
     }

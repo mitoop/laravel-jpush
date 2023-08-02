@@ -2,10 +2,12 @@
 基于 `jpush/jpush` `3.6.6` 版本(当前最新版本), 三分钟完成极光推送开发.
 
 ## Install
-> composer require mitoop/laravel-jpush
+```shell
+composer require mitoop/laravel-jpush
+```
 
 ## Require
-- Laravel >=9.0
+- Laravel ^9.0|^10.0
 
 ## Configure
 在 `config/services`里增加极光配置 : 
@@ -22,14 +24,10 @@
     ],
 ```
 
-如果需要`Facade` 在 `config/app.php` `alias` 数组下增加 
-
-` 'JPush' => Mitoop\JPush\JPushServiceFacade::class,`
-
 ## Use
 推送可以采用同步或异步任意一种方式(推荐异步)
 
-一下代码示例假设配置了 `JPush` alias
+一下代码示例假设使用 `JPush` alias
 
     
 同步推送
