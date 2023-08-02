@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "illuminate/queue": "^9|10",
-        "illuminate/support": "^9|10",
+        "illuminate/queue": "^9|^10",
+        "illuminate/support": "^9|^10",
         "jpush/jpush": "^3.6"
     },
     "autoload": {
