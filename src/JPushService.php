@@ -11,6 +11,7 @@ class JPushService implements PushServiceInterface
 
     protected $payload;
 
+    protected $title;
     protected $notification;
 
     protected $extras = [];
@@ -90,8 +91,9 @@ class JPushService implements PushServiceInterface
      *
      * @return $this
      */
-    public function notify($notification)
+    public function notify($title, $notification)
     {
+        $this->title = $title;
         $this->notification = $notification;
 
         return $this;
@@ -104,13 +106,19 @@ class JPushService implements PushServiceInterface
      */
     public function send()
     {
+        $notification = $this->notification;
+        if ($this->title) {
+            $notification = [
+                'title' => $this->title,
+                'body' => $this->notification,
+            ];
+        }
         $this->payload
-            ->androidNotification($this->notification, [
-                'extras' => $this->extras,
-            ])
-            ->iosNotification($this->notification, [
+            ->addAndroidNotification($this->notification, $this->title, 2, $this->extras)
+            ->iosNotification($notification, [
                 'extras' => $this->extras,
                 'sound' => 'default',
+                'content-available' => true,
             ]);
 
         try {
@@ -125,10 +133,10 @@ class JPushService implements PushServiceInterface
      *
      * @return $this
      */
-    public function push($alias, $notification, array $extras = [])
+    public function push($alias, $notification, $title, array $extras = [])
     {
         $this->setPlatform('all')
-            ->notify($notification)
+            ->notify($title, $notification)
             ->attachExtras($extras);
 
         if ($alias == 'all') {
@@ -145,9 +153,9 @@ class JPushService implements PushServiceInterface
      *
      * @return array|bool
      */
-    public function pushNow($alias, $notification, array $extras = [])
+    public function pushNow($alias, $notification, $title, array $extras = [])
     {
-        return $this->push($alias, $notification, $extras)->send();
+        return $this->push($alias, $notification, $title, $extras)->send();
     }
 
     /**
@@ -155,9 +163,9 @@ class JPushService implements PushServiceInterface
      *
      * @return mixed
      */
-    public function pushQueue($alias, $notification, array $extras = [])
+    public function pushQueue($alias, $notification, $title, array $extras = [])
     {
-        return $this->push($alias, $notification, $extras)->queue();
+        return $this->push($alias, $notification, $title, $extras)->queue();
     }
 
     /**

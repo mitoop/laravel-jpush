@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Facade;
  * @method static JPushService notify(string $notification)
  * @method static mixed send()
  * @method static JPushService attachExtras(array $extras)
- * @method static JPushService push(string|array $alias, string $notification, array $extras)
- * @method static mixed pushNow(string|array $alias, string $notification, array $extras)
- * @method static mixed pushQueue(string|array $alias, string $notification, array $extras)
- * @method static null queue(ShouldQueue $job, string $queue, string $connection)
+ * @method static JPushService push(string|array $alias, string $notification, string $title, array $extras)
+ * @method static mixed pushNow(string|array $alias, string $notification, string $title, array $extras)
+ * @method static mixed pushQueue(string|array $alias, string $notification, string $title, array $extras)
+ * @method static null queue(ShouldQueue $job, string $queue, string $title, string $connection)
  */
 class JPushServiceFacade extends Facade
 {
